@@ -1,0 +1,12 @@
+---
+import { countries } from '../data/countries.js';
+export const props = {
+    class: String,
+    selectedValue: String
+};
+---
+<select class={Astro.props.class}>
+    {Object.entries(countries).map(([code, name]) => (
+            <option value={code} selected={code === Astro.props.selectedValue}>{name}</option>
+    ))}
+</select>

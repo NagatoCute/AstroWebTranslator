@@ -1,0 +1,9 @@
+---
+export const props = {
+    class: String,
+    placeholder: String,
+    readonly: Boolean,
+    disabled: Boolean
+};
+---
+<textarea class={Astro.props.class} placeholder={Astro.props.placeholder} spellcheck="false" { ...Astro.props.readonly ? {readonly: true} : {} } { ...Astro.props.disabled ? {disabled: true} : {} }></textarea>

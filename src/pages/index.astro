@@ -1,0 +1,48 @@
+---
+import LanguageSelector from '../components/LanguageSelector.astro';
+import Textarea from '../components/Textarea.astro';
+---
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title>语言翻译器</title>
+	<link rel="stylesheet" href="/style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/pizzip@3.0.5/dist/pizzip.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.22.0/build/docxtemplater.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="wrapper">
+		<div class="text-input">
+			<Textarea class="from-text" placeholder="输入文本" />
+			<Textarea class="to-text" placeholder="翻译结果" readonly disabled />
+		</div>
+		<ul class="controls">
+			<li class="row from">
+				<div class="icons">
+					<i id="from-volume" class="fas fa-volume-up"></i>
+					<i id="from-copy" class="fas fa-copy"></i>
+				</div>
+				<LanguageSelector class="from-lang-select" selectedValue="en-GB" />
+			</li>
+			<li class="exchange"><i class="fas fa-exchange-alt"></i></li>
+			<li class="row to">
+				<LanguageSelector class="to-lang-select" selectedValue="zh" />
+				<div class="icons">
+					<i id="to-volume" class="fas fa-volume-up"></i>
+					<i id="to-copy" class="fas fa-copy"></i>
+				</div>
+			</li>
+		</ul>
+		<input type="file" id="file-input" accept=".docx,.md,.txt"/>
+		<button id="translate-btn">翻译输入文本</button>
+		<button id="upload-btn">上传文件并翻译</button>
+		<button id="download-btn">下载翻译结果</button>
+	</div>
+</div>
+<script is:inline src="/scripts/translator.js"></script>
+</body>
+</html>
