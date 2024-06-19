@@ -54,4 +54,4 @@
 
 ## License
 
-MIT License. 参见 [LICENSE](./LICENSE) 文件了解更多详情。
+MIT License. 参见 [LICENSE](./LICENSE.md) 文件了解更多详情。
