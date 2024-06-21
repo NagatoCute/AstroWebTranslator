@@ -8,13 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const translateBtn = document.getElementById("translate-btn");
     const fileInput = document.getElementById('file-input');
     const uploadBtn = document.getElementById('upload-btn');
+    const ocrBtn = document.getElementById('ocr-btn');
     const downloadBtn = document.getElementById('download-btn');
     let currentFileType = '';
 
-    // Populate select options with languages
-    // This step is already done in the Astro component
-
-    // Swap texts and language selections
+    // 交换文本和语言选择
     exchangeIcon.addEventListener("click", () => {
         const tempText = fromText.value;
         const tempLang = fromLangSelect.value;
@@ -24,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         toLangSelect.value = tempLang;
     });
 
-    // Copy text to clipboard and speak text aloud
+    // 复制文本到剪贴板并朗读文本
     icons.forEach(icon => {
         icon.addEventListener("click", async ({ target }) => {
             if (!fromText.value || !toText.value) return;
@@ -39,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Translate input text
+    // 翻译输入文本
     translateBtn.addEventListener("click", async () => {
         const text = fromText.value.trim();
         if (!text) return;
@@ -61,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Upload and translate file button action
+    // 上传并翻译文件
     uploadBtn.addEventListener('click', async () => {
         const file = fileInput.files[0];
         if (!file) {
@@ -83,6 +81,40 @@ document.addEventListener("DOMContentLoaded", () => {
         fromText.value = text;
         await translateText(text, fromLangSelect.value, toLangSelect.value);
     });
+
+    // 上传图片并进行OCR识别
+    ocrBtn.addEventListener('click', async () => {
+        const file = fileInput.files[0];
+        if (!file) {
+            alert("请先选择一个图片文件");
+            return;
+        }
+
+        if (!file.type.startsWith('image/')) {
+            alert("请选择一个有效的图片文件");
+            return;
+        }
+
+        fromText.value = "正在识别图像中的文字...";
+        try {
+            const text = await recognizeText(file);
+            fromText.value = text;
+        } catch (error) {
+            alert("OCR识别时发生错误：" + error.message);
+            fromText.value = "";
+        }
+    });
+
+    async function recognizeText(file) {
+        const { createWorker } = Tesseract;
+        const worker = createWorker();
+        await worker.load();
+        await worker.loadLanguage('eng');
+        await worker.initialize('eng');
+        const { data: { text } } = await worker.recognize(file);
+        await worker.terminate();
+        return text;
+    }
 
     async function translateText(text, fromLang, toLang) {
         toText.setAttribute("placeholder", "正在翻译...");
@@ -136,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Download translated text as .txt file
+    // 下载翻译后的文本
     downloadBtn.addEventListener('click', () => {
         const translatedText = toText.value;
         const blob = new Blob([translatedText], { type: 'text/plain' });

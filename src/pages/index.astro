@@ -14,9 +14,13 @@ import Textarea from '../components/Textarea.astro';
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 	<script src="https://cdn.jsdelivr.net/npm/pizzip@3.0.5/dist/pizzip.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.22.0/build/docxtemplater.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/pizzip/3.0.5/pizzip.min.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/docxtemplater/3.22.0/docxtemplater.min.js"></script>
 </head>
 <body>
-<Header />
+<header class="header">
+	<h1>语言翻译器</h1>
+</header>
 <div class="container">
 	<Announcement />
 	<div class="main-content">
@@ -42,13 +46,16 @@ import Textarea from '../components/Textarea.astro';
 					</div>
 				</li>
 			</ul>
-			<input type="file" id="file-input" accept=".docx,.md,.txt"/>
+
 			<button id="translate-btn">翻译输入文本</button>
 			<button id="upload-btn">上传文件并翻译</button>
+			<button id="ocr-btn">上传图片并OCR</button>
 			<button id="download-btn">下载翻译结果</button>
+			<input type="file" id="file-input" accept=".docx,.md,.txt,image/*"/>
 		</div>
 	</div>
 </div>
 <script is:inline src="/scripts/translator.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
 </body>
 </html>
